@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Jim Grove Retirement Countdown</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <style>
+      h1 {
+          font-size: 40pt;
+          text-align: center;
+          font-family: sans-serif;
+      }
+      .countdown {
+          font-size: 50pt;
+          text-align: center;
+          font-family: monospace;
+          font-weight: bold;
+      }
+      #days:after {
+          font-weight: normal;
+          content: ' days';
+      }
+      #hours:after {
+          font-weight: normal;
+          content: ' hours';
+      }
+      #minutes:after {
+          font-weight: normal;
+          content: ' minutes';
+      }
+      #seconds:after {
+          font-weight: normal;
+          content: ' seconds';
+      }
+    </style>
+    <script>
+      setInterval(function() {
+        var end = new Date('2020-06-21T00:00:00-0400');
+        var now = new Date();
+        var delta = (end - now) / (60 * 60 * 24 * 1000);
+        var days = Math.floor(delta);
+        var fract = delta - days;
+        var hours = Math.floor(fract * 24);
+        fract = (fract * 24) % 1;
+        var minutes = Math.floor(fract * 60);
+        fract = (fract * 60) % 1;
+        var seconds = Math.floor(fract * 60);
+        document.querySelector('#days').textContent = days;
+        document.querySelector('#hours').textContent = hours;
+        document.querySelector('#minutes').textContent = minutes;
+        document.querySelector('#seconds').textContent = seconds;
+      }, 100);
+    </script>
+  </head>
+  <body>
+    <h1>Jim Grove retires in …</h1>
+    <div class="countdown" id="days"></div>
+    <div class="countdown" id="hours"></div>
+    <div class="countdown" id="minutes"></div>
+    <div class="countdown" id="seconds"></div>
+  </body>
+</html>
