@@ -34,8 +34,18 @@
     </style>
     <script>
       var end = new Date('2020-06-21T00:00:00-0400');
+      var error = 0;
+      (function() {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+          error = new Date(xhr.getResponseHeader('Date')) - new Date();
+        };
+        xhr.open('HEAD', '/?nocache=' + Math.random(), true);
+        xhr.send();
+      }())
+
       setInterval(function() {
-        var now = new Date();
+        var now = Number(new Date()) + error;
         var delta = (end - now) / (60 * 60 * 24 * 1000);
         var days = Math.floor(delta);
         var fract = delta - days;
