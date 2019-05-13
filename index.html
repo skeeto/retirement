@@ -54,7 +54,16 @@
 
       setInterval(function() {
           var now = Number(new Date()) + error;
-          var delta = (end - now) / (60 * 60 * 24 * 1000);
+          var delta;
+          if (now < end) {
+              $('#phrase').textContent = 'retires in';
+              $('#ending').textContent = '';
+              delta = (end - now) / (60 * 60 * 24 * 1000);
+          } else {
+              $('#phrase').textContent = 'retired';
+              $('#ending').textContent = 'ago';
+              delta = (now - end) / (60 * 60 * 24 * 1000);
+          }
           var days = Math.floor(delta);
           $('#days .quantity').textContent = commafy(days);
           $('#days .unit').textContent = days == 1 ? 'day' : 'days';
@@ -74,7 +83,7 @@
     </script>
   </head>
   <body>
-    <h1><span id="who">Jim Grove</span> retires in …</h1>
+    <h1><span id="who">Jim Grove</span> <span id="phrase">retires in</span></h1>
     <div class="countdown" id="days">
       <span class="quantity"></span><span class="unit"></span>
     </div>
@@ -87,6 +96,7 @@
     <div class="countdown" id="seconds">
       <span class="quantity"></span><span class="unit"></span>
     </div>
+    <h1><span id="ending"></span></h1>
     <script>
       if (location.hash == '#deb') {
         document.querySelector('#who').textContent = 'Deb Grove';
