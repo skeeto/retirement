@@ -1,107 +1,114 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Grove Retirement Countdown</title>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <style>
-      body {
-          font-family: sans-serif;
-          overflow: hidden;
-      }
-      h1 {
-          font-size: 40pt;
-          text-align: center;
-      }
-      .countdown {
-          white-space: nowrap;
-          font-size: 50pt;
-      }
-      .countdown .quantity {
-          display: inline-block;
-          text-align: right;
-          font-weight: bold;
-          width: 47%;
-          padding-right: 20px;
-      }
-      .countdown .unit {
-          display: inline-block;
-          text-align: left;
-          width: 53%;
-      }
-    </style>
-    <script>
-      var end = new Date('2019-05-24T17:00:00-0400');
-      var error = 0;
-      (function() {
-          var xhr = new XMLHttpRequest();
-          xhr.onerror = xhr.onload = function() {
-              error = new Date(xhr.getResponseHeader('Date')) - new Date();
-          };
-          xhr.open('HEAD', '/?nocache=' + Math.random(), true);
-          xhr.send();
-      }())
+<title>Grove Retirement Countdown</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.6"/>
+<link rel="stylesheet" href="fireworks.css"/>
+<style>
+  body {
+      font-family: sans-serif;
+      overflow: hidden;
+  }
+  h1 {
+      font-size: 40pt;
+      text-align: center;
+  }
+  .countdown {
+      white-space: nowrap;
+      font-size: 50pt;
+  }
+  .countdown .quantity {
+      display: inline-block;
+      text-align: right;
+      font-weight: bold;
+      width: 47%;
+      padding-right: 20px;
+  }
+  .countdown .unit {
+      display: inline-block;
+      text-align: left;
+      width: 53%;
+  }
+</style>
+<script>
+var end = new Date('2019-05-24T17:00:00-0400');
+var error = 0;
+(function() {
+    var xhr = new XMLHttpRequest();
+    xhr.onerror = xhr.onload = function() {
+        error = new Date(xhr.getResponseHeader('Date')) - new Date();
+    };
+    xhr.open('HEAD', '/?nocache=' + Math.random(), true);
+    xhr.send();
+}())
 
-      function $(s) {
-          return document.querySelector(s)
-      }
+function $(s) {
+    return document.querySelector(s)
+}
 
-      function commafy(num) {
-          var s = String(num);
-          if (s.length > 3)
-              return s.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
-          return s;
-      }
+function commafy(num) {
+    var s = String(num);
+    if (s.length > 3)
+        return s.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+    return s;
+}
 
-      setInterval(function() {
-          var now = Number(new Date()) + error;
-          var delta;
-          if (now < end) {
-              $('#phrase').textContent = 'retires in';
-              $('#ending').textContent = '';
-              delta = (end - now) / (60 * 60 * 24 * 1000);
-          } else {
-              $('#phrase').textContent = 'retired';
-              $('#ending').textContent = 'ago';
-              delta = (now - end) / (60 * 60 * 24 * 1000);
-          }
-          var days = Math.floor(delta);
-          $('#days .quantity').textContent = commafy(days);
-          $('#days .unit').textContent = days == 1 ? 'day' : 'days';
-          var fract = delta % 1;
-          var hours = Math.floor(fract * 24);
-          $('#hours .quantity').textContent = hours;
-          $('#hours .unit').textContent = hours == 1 ? 'hour' : 'hours';
-          fract = (fract * 24) % 1;
-          var minutes = Math.floor(fract * 60);
-          $('#minutes .quantity').textContent = minutes;
-          $('#minutes .unit').textContent = minutes == 1 ? 'minute' : 'minutes';
-          fract = (fract * 60) % 1;
-          var seconds = Math.floor(fract * 60);
-          $('#seconds .quantity').textContent = seconds;
-          $('#seconds .unit').textContent = seconds == 1 ? 'second' : 'seconds';
-      }, 100);
-    </script>
-  </head>
-  <body>
-    <h1><span id="who">Jim Grove</span> <span id="phrase">retires in</span></h1>
-    <div class="countdown" id="days">
-      <span class="quantity"></span><span class="unit"></span>
-    </div>
-    <div class="countdown" id="hours">
-      <span class="quantity"></span><span class="unit"></span>
-    </div>
-    <div class="countdown" id="minutes">
-      <span class="quantity"></span><span class="unit"></span>
-    </div>
-    <div class="countdown" id="seconds">
-      <span class="quantity"></span><span class="unit"></span>
-    </div>
-    <h1><span id="ending"></span></h1>
-    <script>
-      if (location.hash == '#deb') {
-        document.querySelector('#who').textContent = 'Deb Grove';
-        end = new Date('2019-07-07T15:00:00-0400');
-      }
-    </script>
-  </body>
-</html>
+setInterval(function() {
+    var now = Number(new Date()) + error;
+    var delta;
+    if (now < end) {
+        $('#phrase').textContent = 'retires in';
+        $('#ending').textContent = '';
+        $('#fireworks').classList = '';
+        delta = (end - now) / (60 * 60 * 24 * 1000);
+    } else {
+        $('#phrase').textContent = 'retired';
+        $('#ending').textContent = 'ago!';
+        $('#fireworks').classList = 'pyro';
+        delta = (now - end) / (60 * 60 * 24 * 1000);
+    }
+    var days = Math.floor(delta);
+    $('#days .quantity').textContent = commafy(days);
+    $('#days .unit').textContent = days == 1 ? 'day' : 'days';
+    var fract = delta % 1;
+    var hours = Math.floor(fract * 24);
+    $('#hours .quantity').textContent = hours;
+    $('#hours .unit').textContent = hours == 1 ? 'hour' : 'hours';
+    fract = (fract * 24) % 1;
+    var minutes = Math.floor(fract * 60);
+    $('#minutes .quantity').textContent = minutes;
+    $('#minutes .unit').textContent = minutes == 1 ? 'minute' : 'minutes';
+    fract = (fract * 60) % 1;
+    var seconds = Math.floor(fract * 60);
+    $('#seconds .quantity').textContent = seconds;
+    $('#seconds .unit').textContent = seconds == 1 ? 'second' : 'seconds';
+}, 100);
+</script>
+
+<h1>
+    <span id="who">Jim Grove</span> <span id="phrase">retires in</span>
+</h1>
+<div class="countdown" id="days">
+    <span class="quantity"></span><span class="unit"></span>
+</div>
+<div class="countdown" id="hours">
+    <span class="quantity"></span><span class="unit"></span>
+</div>
+<div class="countdown" id="minutes">
+    <span class="quantity"></span><span class="unit"></span>
+</div>
+<div class="countdown" id="seconds">
+    <span class="quantity"></span><span class="unit"></span>
+</div>
+<h1><span id="ending"></span></h1>
+
+<script>
+if (location.hash == '#deb') {
+    document.querySelector('#who').textContent = 'Deb Grove';
+    end = new Date('2019-07-07T15:00:00-0400');
+}
+</script>
+
+<div id="fireworks">
+    <div class="before"></div>
+    <div class="after"></div>
+</div>
